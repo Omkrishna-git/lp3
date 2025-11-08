@@ -88,3 +88,12 @@ int main() {
     }
     return 0;
 }
+
+
+
+// | Approach                         | Description                                 | Time Complexity | Space Complexity           | Explanation                                                                                                                                                  |
+// | -------------------------------- | ------------------------------------------- | --------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+// | **1. Recursive**                 | Simple recursion without any storage        | **O(2ⁿ)**       | **O(n)** (recursion stack) | Each call to `fib_rec(n)` calls `fib_rec(n−1)` and `fib_rec(n−2)`. This creates an exponential recursion tree with many overlapping subproblems.             |
+// | **2. Memoization (Top-Down DP)** | Recursion + caching (using `dp[]`)          | **O(n)**        | **O(n)**                   | Each Fibonacci number is computed once and stored in `dp[]`. Each recursive call either returns a cached value or computes a new one. Recursion depth = `n`. |
+// | **3. Tabulation (Bottom-Up DP)** | Iterative DP (fills table from base to `n`) | **O(n)**        | **O(n)**                   | Uses an array `dp[0...n]` and computes each Fibonacci number iteratively in a loop.                                                                          |
+// | **4. Space Optimized DP**        | Stores only last two values                 | **O(n)**        | **O(1)**                   | Instead of keeping an array, only two variables (`a`, `b`) are maintained to hold last two Fibonacci numbers.                                                |
