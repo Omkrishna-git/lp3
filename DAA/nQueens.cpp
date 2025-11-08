@@ -1,12 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int main() {
-
-
-
-    return 0;
-}
 
 /*
     Time complexity for Approach-1 : O(N!)
@@ -20,11 +14,11 @@ int main() {
     This pattern continues, resulting in an approximate time complexity of O(N!)
 */
 
-/*************************************************************** C++ *************************************************************************/
 //Approach-1 (Simple dfs)
 //T.C : O(N!) - Read the reason above
 //S.C : O(N) to store the result
-class Solution {
+
+class NQueenDFS  {
 public:
     vector<vector<string>> result;
     bool isValid(vector<string>& board, int row, int col) {
@@ -46,20 +40,20 @@ public:
                 return false;
         }
         
-        /*
-			Wait a second, Why didn't I check any squares downwards ???
-			If you notice, every time I am calling dfs(board, row+1); i.e. after
-			placing a Queen at a row, I move down. So, It's guaranteed I will
-			not get any Queen downwards.
-			Example :
+    /*
+        Wait a second, Why didn't I check any squares downwards ???
+        If you notice, every time I am calling dfs(board, row+1); i.e. after
+        placing a Queen at a row, I move down. So, It's guaranteed I will
+        not get any Queen downwards.
+        Example :
 
-			For n = 4
+        For n = 4
 
-	                _   _    _  Q   (Put int the first row)
-	                Q  _   _   _    (While putting here, I only need to see above of me because I have not populated any Q in downwards)
-	                _   _   Q  _    (Same,  While putting here, I only need to see above of me because I have not populated any Q in downwards)
-	
-	                So, on
+                _   _    _  Q   (Put int the first row)
+                Q  _   _   _    (While putting here, I only need to see above of me because I have not populated any Q in downwards)
+                _   _   Q  _    (Same,  While putting here, I only need to see above of me because I have not populated any Q in downwards)
+
+                So, on
 
 	*/
         
@@ -89,6 +83,7 @@ public:
             }
         }
     }
+
     vector<vector<string>> solveNQueens(int n) {
         if(n == 0)
             return {};
@@ -104,7 +99,7 @@ public:
 //Approach-2
 //T.C : O(N!) in worst case it explores all possible configurations
 //S.C : O(N) for result and also for storing, cols, diags and antidiags
-class Solution {
+class NQueenOptimized  {
 public:
     vector<vector<string>> result;
     void solve(vector<string>& board, int row, unordered_set<int>& cols, unordered_set<int>& diags, unordered_set<int>& antiDiags) {
@@ -133,6 +128,7 @@ public:
                 are used, means one of them has a Queen placed
                 already which can attack, so look for other column
             */
+           
             if(cols.find(col) != cols.end() ||
               diags.find(diag_id) != diags.end() ||
               antiDiags.find(anti_diag_id) != antiDiags.end())
@@ -152,6 +148,7 @@ public:
             board[row][col] = '.';
         }
     }
+
     vector<vector<string>> solveNQueens(int n) {
         if(n == 0)
             return {};
@@ -168,3 +165,48 @@ public:
     }
 };
 
+
+// | Approach                   | Validation           | Time per Step | Total Time            | Space   | Remarks                     |
+// | -------------------------- | -------------------- | ------------- | --------------------- | ------- | --------------------------- |
+// | **1. Simple DFS**          | Scan board each time | `O(N)`        | `O(N × N!)` ≈ `O(N!)` | `O(N²)` | Easy to understand but slow |
+// | **2. Optimized with Sets** | O(1) via sets        | `O(1)`        | `O(N!)`               | `O(N²)` | Much faster in real runs    |
+
+
+
+int main() {
+    int n;
+    cout << "Enter the size of chessboard (N): ";
+    cin >> n;
+
+    cout << "\nSelect approach:\n";
+    cout << "1. Simple DFS Backtracking\n";
+    cout << "2. Optimized Backtracking (using sets)\n";
+    cout << "Enter your choice: ";
+    int choice;
+    cin >> choice;
+
+    vector<vector<string>> result;
+
+    if (choice == 1) {
+        NQueenDFS sol;
+        result = sol.solveNQueens(n);
+    } else if (choice == 2) {
+        NQueenOptimized sol;
+        result = sol.solveNQueens(n);
+    } else {
+        cout << "Invalid choice!\n";
+        return 0;
+    }
+
+    cout << "\nTotal solutions found: " << result.size() << "\n\n";
+
+    int solNo = 1;
+    for (auto& board : result) {
+        cout << "Solution " << solNo++ << ":\n";
+        for (auto& row : board)
+            cout << row << "\n";
+        cout << "\n";
+    }
+
+    return 0;
+}
