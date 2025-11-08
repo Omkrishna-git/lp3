@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Records Blockchain</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Medical Records Blockchain System</h1>
+        
+        <div class="account-info">
+            <p><strong>Current Account:</strong> <span id="currentAccount">Not Connected</span></p>
+            <p><strong>Account Type:</strong> <span id="accountType">Unknown</span></p>
+        </div>
+
+        <!-- Patient Dashboard -->
+        <div id="patientDashboard" class="dashboard hidden">
+            <h2>Patient Dashboard</h2>
+            
+            <div class="section">
+                <h3>Upload Medical Record</h3>
+                <input type="text" id="medicalHash" placeholder="Enter Medical Record Hash (e.g., IPFS Hash)">
+                <button onclick="updateRecord()">Update Record</button>
+            </div>
+
+            <div class="section">
+                <h3>Grant Access to Doctor</h3>
+                <input type="text" id="doctorAddress" placeholder="Doctor's Ethereum Address">
+                <button onclick="grantAccess()">Grant Access</button>
+            </div>
+
+            <div class="section">
+                <h3>Revoke Access from Doctor</h3>
+                <input type="text" id="revokeDoctorAddress" placeholder="Doctor's Ethereum Address">
+                <button onclick="revokeAccess()">Revoke Access</button>
+            </div>
+
+            <div class="section">
+                <h3>View My Record</h3>
+                <button onclick="viewRecord()">View Record</button>
+                <div id="recordDisplay" class="record-display"></div>
+            </div>
+
+            <div class="section">
+                <h3>Access Logs</h3>
+                <button onclick="getAccessLogs()">Load Access Logs</button>
+                <div id="accessLogs" class="logs"></div>
+            </div>
+        </div>
+
+        <!-- Doctor Dashboard -->
+        <div id="doctorDashboard" class="dashboard hidden">
+            <h2>Doctor Dashboard</h2>
+            
+            <div class="section">
+                <h3>Check Authorization Status</h3>
+                <button onclick="checkAuthorization()">Check My Authorization</button>
+                <p id="authStatus"></p>
+            </div>
+
+            <div class="section">
+                <h3>View Patient Record</h3>
+                <button onclick="viewRecord()">View Record</button>
+                <div id="doctorRecordDisplay" class="record-display"></div>
+            </div>
+        </div>
+
+        <div id="statusMessages" class="status-messages"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
