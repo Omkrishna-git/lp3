@@ -1,7 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
 /*
     Time complexity for Approach-1 : O(N!)
     Unlike the brute force approach, we will only place queens on squares that aren't under attack.
@@ -23,19 +22,19 @@ public:
     vector<vector<string>> result;
     bool isValid(vector<string>& board, int row, int col) {
         //look for up
-        for(int i = row; i>=0; i--) {
+        for(int i = row; i >= 0; i--) {
             if(board[i][col] == 'Q')
                 return false;
         }
         
         //check left diagonal upwards
-        for(int i = row, j = col; i>=0 && j >= 0; i--, j--) {
+        for(int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
             if(board[i][j] == 'Q')
                 return false;
         }
         
         //check right diagonal upwards
-        for(int i = row, j = col; i>=0 && j<board.size(); i--, j++) {
+        for(int i = row, j = col; i >= 0 && j<board.size(); i--, j++) {
             if(board[i][j] == 'Q')
                 return false;
         }
@@ -60,6 +59,7 @@ public:
         
         return true;
     }
+
     void solve(vector<string>& board, int row) {
         if(row == board.size()) {
             result.push_back(board);
@@ -73,7 +73,7 @@ public:
             top row to bottom row, so we need to check if we put a queen
             vertically up in some row or diagonally upwards in some row
         */
-        for(int i = 0; i<board.size(); i++) {
+        for(int i = 0; i < board.size(); i++) {
             if(isValid(board, row, i)) {
                 board[row][i] = 'Q';
                 
@@ -85,16 +85,16 @@ public:
     }
 
     vector<vector<string>> solveNQueens(int n) {
-        if(n == 0)
-            return {};
+        if(n == 0) return {};
+
         vector<string> board(n, string(n, '.')); 
         //For, n = 3, board = {"...", "...", "..."} initially
-        
         solve(board, 0);
         
         return result;
     }
 };
+
 
 //Approach-2
 //T.C : O(N!) in worst case it explores all possible configurations
@@ -130,15 +130,14 @@ public:
             */
            
             if(cols.find(col) != cols.end() ||
-              diags.find(diag_id) != diags.end() ||
-              antiDiags.find(anti_diag_id) != antiDiags.end())
-                continue;
+                diags.find(diag_id) != diags.end() ||
+                antiDiags.find(anti_diag_id) != antiDiags.end())
+                    continue;
             
             cols.insert(col);
             diags.insert(diag_id);
             antiDiags.insert(anti_diag_id);
             board[row][col] = 'Q';
-            
             
             solve(board, row+1, cols, diags, antiDiags);
 
@@ -150,8 +149,7 @@ public:
     }
 
     vector<vector<string>> solveNQueens(int n) {
-        if(n == 0)
-            return {};
+        if(n == 0) return {};
         vector<string> board(n, string(n, '.')); 
         //For, n = 3, board = {"...", "...", "..."} initially
         
@@ -159,6 +157,7 @@ public:
         unordered_set<int> cols;
         unordered_set<int> diags;
         unordered_set<int> antiDiags;
+
         solve(board, start_row, cols, diags, antiDiags);
         
         return result;
@@ -182,6 +181,7 @@ int main() {
     cout << "1. Simple DFS Backtracking\n";
     cout << "2. Optimized Backtracking (using sets)\n";
     cout << "Enter your choice: ";
+
     int choice;
     cin >> choice;
 
@@ -190,10 +190,12 @@ int main() {
     if (choice == 1) {
         NQueenDFS sol;
         result = sol.solveNQueens(n);
-    } else if (choice == 2) {
+    } 
+    else if (choice == 2) {
         NQueenOptimized sol;
         result = sol.solveNQueens(n);
-    } else {
+    } 
+    else {
         cout << "Invalid choice!\n";
         return 0;
     }
@@ -201,6 +203,7 @@ int main() {
     cout << "\nTotal solutions found: " << result.size() << "\n\n";
 
     int solNo = 1;
+    
     for (auto& board : result) {
         cout << "Solution " << solNo++ << ":\n";
         for (auto& row : board)
