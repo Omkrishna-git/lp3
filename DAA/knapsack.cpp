@@ -18,12 +18,13 @@ int knapsackRec(int idx, int W, vector<int>& wt, vector<int>& val) {
 
 
 //  Memoization (Top-Down DP)
-int knapsackMemo(int idx, int W, vector<int>& wt, vector<int>& val, vector<vector<int>>& dp) {
+int knapsackMemo(int idx, int W, vector<int>& wt, vector<int>& val,vector<vector<int>>& dp) {
     if (idx == 0) return (wt[0] <= W) ? val[0] : 0;
     if (dp[idx][W] != -1) return dp[idx][W];
 
     int notTake = knapsackMemo(idx - 1, W, wt, val, dp);
     int take = INT_MIN;
+
     if (wt[idx] <= W)
         take = val[idx] + knapsackMemo(idx - 1, W - wt[idx], wt, val, dp);
 
@@ -49,8 +50,7 @@ int knapSackTabulation(vector<int>& wt, vector<int>& val, int W) {
         for (int w = 0; w <= W; w++) {
             int notTake = dp[i - 1][w];
             int take = INT_MIN;
-            if (wt[i] <= w)
-                take = val[i] + dp[i - 1][w - wt[i]];
+            if (wt[i] <= w) take = val[i] + dp[i - 1][w - wt[i]];
             dp[i][w] = max(take, notTake);
         }
     }
@@ -90,12 +90,13 @@ struct Node {
     double bound;
 };
 
-bool cmp(Item a, Item b) {
-    return a.ratio > b.ratio;
+bool cmp(Item a, Item b) { 
+    return a.ratio > b.ratio; 
 }
 
 double bound(Node u, int n, int W, vector<Item>& arr) {
-    if (u.weight >= W) return 0;
+    if (u.weight >= W)
+        return 0;
 
     double profit_bound = u.profit;
     int j = u.level + 1;
@@ -115,6 +116,7 @@ double bound(Node u, int n, int W, vector<Item>& arr) {
 
 int knapSackBnB(int W, vector<int>& val, vector<int>& wt, int n) {
     vector<Item> arr(n);
+
     for (int i = 0; i < n; i++)
         arr[i] = {val[i], wt[i], (double)val[i] / wt[i]};
 
@@ -130,7 +132,8 @@ int knapSackBnB(int W, vector<int>& val, vector<int>& wt, int n) {
         u = Q.front();
         Q.pop();
 
-        if (u.level == n - 1) continue;
+        if (u.level == n - 1)
+            continue;
 
         v.level = u.level + 1;
 
@@ -156,7 +159,6 @@ int knapSackBnB(int W, vector<int>& val, vector<int>& wt, int n) {
     return maxProfit;
 }
 
-
 int main() {
     int n, W;
     cout << "Enter number of items: ";
@@ -164,9 +166,11 @@ int main() {
 
     vector<int> val(n), wt(n);
     cout << "Enter values of items:\n";
-    for (int i = 0; i < n; i++) cin >> val[i];
+    for (int i = 0; i < n; i++)
+        cin >> val[i];
     cout << "Enter weights of items:\n";
-    for (int i = 0; i < n; i++) cin >> wt[i];
+    for (int i = 0; i < n; i++)
+        cin >> wt[i];
 
     cout << "Enter knapsack capacity: ";
     cin >> W;
@@ -185,33 +189,29 @@ int main() {
     int result = 0;
 
     switch (choice) {
-        case 1:
-            result = knapsackRec(n - 1, W, wt, val);
-            break;
-        case 2:
-            result = knapSackMemoization(wt, val, W);
-            break;
-        case 3:
-            result = knapSackTabulation(wt, val, W);
-            break;
-        case 4:
-            result = knapSackSpaceOptimized(wt, val, W);
-            break;
-        case 5:
-            result = knapSackBnB(W, val, wt, n);
-            break;
-        default:
-            cout << "Invalid choice!\n";
-            return 0;
+    case 1:
+        result = knapsackRec(n - 1, W, wt, val);
+        break;
+    case 2:
+        result = knapSackMemoization(wt, val, W);
+        break;
+    case 3:
+        result = knapSackTabulation(wt, val, W);
+        break;
+    case 4:
+        result = knapSackSpaceOptimized(wt, val, W);
+        break;
+    case 5:
+        result = knapSackBnB(W, val, wt, n);
+        break;
+    default:
+        cout << "Invalid choice!\n";
+        return 0;
     }
 
     cout << "\nMaximum value in Knapsack = " << result << endl;
     return 0;
 }
-
-
-
-
 
 // | Approach        | Time Complexity    | Space  | Notes                |
 // | --------------- | ------------------ | ------ | -------------------- |
@@ -221,13 +221,10 @@ int main() {
 // | Space Optimized | O(n×W)             | O(W)   | Efficient            |
 // | Branch & Bound  | Depends on pruning | O(n)   | Optimal with pruning |
 
-
-
-
-
 // class Solution1 {
 // public:
-//     double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+//     double fractionalKnapsack(vector<int>& val, vector<int>& wt, int
+//     capacity) {
 //         int n = val.size();
 
 //         // Store pair of (value, weight)
