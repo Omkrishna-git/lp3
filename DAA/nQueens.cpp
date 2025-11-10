@@ -19,7 +19,9 @@ using namespace std;
 
 class NQueenDFS  {
 public:
+
     vector<vector<string>> result;
+
     bool isValid(vector<string>& board, int row, int col) {
         //look for up
         for(int i = row; i >= 0; i--) {
@@ -38,7 +40,10 @@ public:
             if(board[i][j] == 'Q')
                 return false;
         }
-        
+            
+        return true;
+    }
+
     /*
         Wait a second, Why didn't I check any squares downwards ???
         If you notice, every time I am calling dfs(board, row+1); i.e. after
@@ -55,10 +60,6 @@ public:
                 So, on
 
 	*/
-        
-        
-        return true;
-    }
 
     void solve(vector<string>& board, int row) {
         if(row == board.size()) {
@@ -73,13 +74,13 @@ public:
             top row to bottom row, so we need to check if we put a queen
             vertically up in some row or diagonally upwards in some row
         */
-        for(int i = 0; i < board.size(); i++) {
-            if(isValid(board, row, i)) {
-                board[row][i] = 'Q';
+        for(int col = 0; col < board.size(); col++) {
+            if(isValid(board, row, col)) {
+                board[row][col] = 'Q';
                 
                 solve(board, row+1);
                 
-                board[row][i] = '.';
+                board[row][col] = '.';
             }
         }
     }
@@ -203,7 +204,7 @@ int main() {
     cout << "\nTotal solutions found: " << result.size() << "\n\n";
 
     int solNo = 1;
-    
+
     for (auto& board : result) {
         cout << "Solution " << solNo++ << ":\n";
         for (auto& row : board)

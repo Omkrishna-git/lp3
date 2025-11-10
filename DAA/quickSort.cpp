@@ -34,6 +34,16 @@ void quick_sort(int l, int h) {
     }
 }
 
+// worst case
+// 1 2 3 4 5 6 
+// Partitionaing happinging on the bases of 
+// pivot element so time complexity is O(n^2)
+
+
+// modification need to do
+// 1. Select Middle element as pivot
+// 2. Seled Random element as pivat
+
 int randomized_partition(int l, int h) {
     int random_index = l + rand() % (h - l);
     swap(arr[l], arr[random_index]);
@@ -62,6 +72,7 @@ int main() {
     arr[n] = INT_MAX;
 
     quick_sort(0, n);
+    // randomized_quick_sort(0 , n);
 
     cout << "Sorted array: ";
     for (int i = 0; i < n; i++) {
