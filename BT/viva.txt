@@ -1,0 +1,520 @@
+1. What is Ethereum?
+
+Ans:
+Ethereum is a blockchain platform that supports smart contracts — programs that run exactly as coded without any third party.
+
+2. What is Solidity?
+
+Ans:
+Solidity is a programming language used to write smart contracts that run on the Ethereum Virtual Machine (EVM).
+
+3. What is Gas in Ethereum?
+
+Ans:
+Gas is the unit of computational cost for executing transactions or smart contracts on the blockchain.
+You pay gas in ETH as a transaction fee.
+
+4. What is a Wallet Address?
+
+Ans:
+It is a unique identifier for each user on the blockchain, used to send or receive Ether and interact with contracts.
+
+5. What is MetaMask used for?
+
+Ans:
+MetaMask is a crypto wallet and browser extension that connects your web app or Remix IDE to the Ethereum network and signs transactions.
+
+6. What is a Test Network (Testnet)?
+
+Ans:
+A testnet is a network used for testing smart contracts using fake ETH, without spending real money.
+Examples: Sepolia, Goerli.
+
+7. What is the difference between Mainnet and Testnet?
+Mainnet	Testnet
+Uses real Ether (has real value)	Uses fake Ether (no real value)
+Used for real-world deployment	Used for testing and learning
+Permanent blockchain	Can be reset or changed easily
+8. What is EVM (Ethereum Virtual Machine)?
+
+Ans:
+EVM is the runtime environment that executes smart contracts on all Ethereum nodes.
+It ensures that the same code runs identically everywhere.
+
+9. What is the purpose of require() statement in Solidity?
+
+Ans:
+require() is used to check conditions before executing code.
+If the condition fails, it reverts the transaction and returns unused gas.
+
+10. What is the difference between view and pure functions?
+Type	Meaning	Gas Usage
+view	Reads blockchain data but doesn’t modify it	No gas when called externally
+pure	Doesn’t read or modify blockchain data	No gas when called externally
+11. What is mapping in Solidity?
+
+Ans:
+A mapping is a key-value store used to associate one type of data with another, e.g.
+mapping(address => uint) balances;
+
+12. What is a Struct in Solidity?
+
+Ans:
+A struct is a custom data type that groups multiple variables under one name (like a record).
+Example: struct Student { uint roll; string name; uint marks; }
+
+13. What is ABI (Application Binary Interface)?
+
+Ans:
+ABI defines how data and functions are encoded/decoded so external applications (like MetaMask or Web3.js) can interact with the smart contract.
+
+14. What is a Transaction Hash?
+
+Ans:
+It is a unique identifier (like a receipt) for a blockchain transaction, used to track it on explorers like Etherscan.
+
+15. What is the use of Remix IDE?
+
+Ans:
+Remix IDE is an online tool for writing, compiling, deploying, and testing smart contracts easily without setting up any local environment.
+
+16. What is the role of Node.js in Smart Contracts?
+
+Ans:
+Node.js allows developers to run deployment scripts, interact programmatically with contracts, and connect blockchain APIs using libraries like Web3.js or Ethers.js.
+
+17. What happens when a transaction fails in Ethereum?
+
+Ans:
+If a transaction fails (like due to failed require()), the state is reverted, but gas fee is still consumed because computation was attempted.
+
+18. What is a Faucet in blockchain?
+
+Ans:
+A faucet is a website that gives free test Ether for trying smart contracts on test networks.
+
+19. What is the use of public and private in Solidity?
+
+Ans:
+They are visibility specifiers that control whether a variable or function can be accessed outside the contract.
+
+20. What is the importance of Gas Fee Observation in BT-2?
+
+Ans:
+Observing gas helps understand how different operations consume computational resources, helping in optimizing smart contracts for real deployment.
+
+
+
+
+
+## 🧾 **Assignment BT-1: Smart Contract for Bank Account**
+
+### **Q1. What is the aim of this assignment?**
+
+**Ans:**
+The aim is to write and deploy a **smart contract on a test network** that allows a customer to:
+
+* Deposit money
+* Withdraw money
+* Check balance
+
+It demonstrates how smart contracts can simulate simple **banking operations** on the **Ethereum blockchain**.
+
+---
+
+### **Q2. Which programming language is used to write smart contracts?**
+
+**Ans:**
+We use **Solidity**, which is the most popular language for developing **Ethereum-based smart contracts**.
+
+---
+
+### **Q3. What are the main functions in your bank smart contract?**
+
+**Ans:**
+
+1. **deposit()** → Adds money to the customer’s balance.
+2. **withdraw()** → Allows the customer to withdraw if sufficient balance exists.
+3. **getBalance()** → Returns the current balance of the customer.
+
+---
+
+### **Q4. How is the balance stored in the contract?**
+
+**Ans:**
+The balance is stored in a **state variable** (for example, `mapping(address => uint) balance;`) that keeps track of each user’s balance using their wallet address.
+
+---
+
+### **Q5. What happens if a user tries to withdraw more than their balance?**
+
+**Ans:**
+The smart contract checks the balance before withdrawal using a condition like:
+
+```solidity
+require(balance[msg.sender] >= amount, "Insufficient balance");
+```
+
+If the condition fails, the transaction is **reverted** and **gas fee is still consumed**.
+
+---
+
+### **Q6. What is the advantage of implementing a bank on blockchain?**
+
+**Ans:**
+
+* No need for third-party banks.
+* Fully transparent and traceable transactions.
+* High security (immutable records).
+* Works automatically through smart contracts.
+
+---
+
+### **Q7. On which network did you deploy your contract?**
+
+**Ans:**
+I deployed it on the **Sepolia Test Network** using **MetaMask** and **Remix IDE / Hardhat**.
+It uses **test ETH** for transactions.
+
+---
+
+### **Q8. How do you test your contract functions?**
+
+**Ans:**
+By calling the functions (deposit, withdraw, getBalance) from **Remix IDE**, confirming each transaction through **MetaMask**, and observing the **transaction hash** and **gas used**.
+
+---
+
+### **Q9. What is Gas in Ethereum?**
+
+**Ans:**
+Gas is the **fee paid to miners** for executing transactions or running smart contract operations on the Ethereum network. It prevents network abuse and compensates miners for computation.
+
+---
+
+### **Q10. What did you observe about gas consumption for each operation?**
+
+**Ans:**
+
+* **Deposit:** Low gas cost (simple addition).
+* **Withdraw:** Slightly higher due to transfer logic.
+* **Show Balance:** Least gas, as it’s a view (read-only) function.
+
+---
+
+---
+
+## 🎓 **Assignment BT-2: Student Data Management Smart Contract**
+
+### **Q1. What is the aim of this assignment?**
+
+**Ans:**
+The aim is to write a **Solidity program** that stores **student information** using **structures** and **arrays**, and then deploy it as a **smart contract** on the Ethereum test network.
+
+---
+
+### **Q2. What Solidity features did you use in this program?**
+
+**Ans:**
+I used:
+
+* **Structure (struct):** To define student data like name, roll number, and marks.
+* **Array:** To store multiple student records.
+* **Functions:** To add and view student data.
+
+---
+
+### **Q3. Write the structure used for student data.**
+
+**Ans:**
+
+```solidity
+struct Student {
+    uint rollNo;
+    string name;
+    uint marks;
+}
+```
+
+---
+
+### **Q4. How did you store multiple student records?**
+
+**Ans:**
+By creating an **array of structures**:
+
+```solidity
+Student[] public students;
+```
+
+Then using a function like `addStudent()` to insert new records.
+
+---
+
+### **Q5. How do you retrieve a specific student’s data?**
+
+**Ans:**
+By writing a **view function** that returns data from the array based on index or roll number, for example:
+
+```solidity
+function getStudent(uint index) public view returns (Student memory) {
+    return students[index];
+}
+```
+
+---
+
+### **Q6. Why do we deploy this contract on a test network?**
+
+**Ans:**
+To **experiment safely** with smart contracts without spending real Ether.
+Test networks like **Sepolia** or **Goerli** provide **free test ETH** through faucets for development.
+
+---
+
+### **Q7. How do you check transaction fee and gas usage in Remix IDE?**
+
+**Ans:**
+After executing a transaction in Remix, you can check:
+
+* **Gas used**
+* **Transaction cost (in ETH)**
+* **Execution cost**
+  All are shown in the **transaction details section**.
+
+---
+
+### **Q8. What did you observe about the gas value for adding and viewing students?**
+
+**Ans:**
+
+* **Adding Student (write operation):** Consumes more gas because it changes blockchain state.
+* **Viewing Student (read operation):** Uses almost no gas since it only reads data.
+
+---
+
+### **Q9. What are benefits of using structures in Solidity?**
+
+**Ans:**
+
+* Allows grouping related data (like name, roll, marks).
+* Makes contract easier to understand and maintain.
+* Enables creation of complex data models inside the contract.
+
+---
+
+### **Q10. What are the practical uses of this Student Data contract?**
+
+**Ans:**
+
+* Can be used for **decentralized student record systems**.
+* Prevents data tampering or unauthorized modifications.
+* Makes student records **verifiable and transparent**.
+
+---
+
+## ✅ **Summary Comparison**
+
+| Feature                | BT-1 (Bank Contract)                  | BT-2 (Student Contract)                       |
+| ---------------------- | ------------------------------------- | --------------------------------------------- |
+| **Purpose**            | Banking operations on blockchain      | Student record management                     |
+| **Main Functions**     | Deposit, Withdraw, Check Balance      | Add Student, View Student                     |
+| **Data Type**          | Mapping of address → balance          | Struct + Array                                |
+| **Deployment Network** | Sepolia / Goerli Testnet              | Sepolia / Goerli Testnet                      |
+| **Gas Used**           | Varies by function (deposit/withdraw) | Higher for `addStudent`, low for `getStudent` |
+| **Concepts Covered**   | Payable functions, Ether handling     | Structures, Arrays, State variables           |
+
+---
+
+
+
+
+
+
+
+### **1. What is a Smart Contract?**
+
+**Definition:**
+A **smart contract** is a **self-executing program** stored on a **blockchain** that automatically executes and enforces rules or agreements when certain predefined conditions are met.
+
+**Detailed Explanation:**
+
+* It is similar to a **digital agreement** written in code instead of paper.
+* Once deployed on a blockchain (like Ethereum), it **runs automatically** without any third-party interference.
+* The terms of the agreement are directly written into lines of code.
+* It ensures **trust**, **transparency**, and **security** because once deployed, the code **cannot be altered**.
+
+**Example:**
+Let’s say you write a smart contract for selling an NFT.
+
+* Condition: When a buyer sends 1 ETH,
+* Action: The smart contract automatically transfers the NFT to the buyer.
+
+You don’t need a middleman — the blockchain handles it.
+
+**Key Features:**
+
+* **Immutable:** Once deployed, code cannot be changed.
+* **Transparent:** Everyone can verify the code and transaction.
+* **Autonomous:** Executes automatically when conditions are met.
+* **Secure:** Based on cryptographic blockchain security.
+
+---
+
+### **2. Explain use of MetaMask for Smart Contracts.**
+
+**Definition:**
+**MetaMask** is a **crypto wallet** and **gateway to blockchain applications**.
+It allows users to **interact with Ethereum-based smart contracts** directly from their browser.
+
+**Use in Smart Contracts:**
+
+* MetaMask connects your **web application (frontend)** with the **Ethereum blockchain**.
+* It manages **your Ethereum account**, **private keys**, and **transactions** securely.
+* When deploying or interacting with a smart contract, MetaMask:
+
+  1. **Signs** transactions using your wallet address.
+  2. **Sends** transactions to blockchain nodes.
+  3. **Pays** gas fees automatically.
+
+**Steps for Use:**
+
+1. Install MetaMask (browser extension or mobile app).
+2. Create or import a wallet.
+3. Connect MetaMask with your dApp (Decentralized App).
+4. When the app calls a smart contract, MetaMask prompts for approval.
+5. After approval, MetaMask broadcasts the transaction to the blockchain network (mainnet or testnet).
+
+**Example:**
+When you click “Deploy Smart Contract” in your app, MetaMask pops up asking for confirmation and gas fee → once confirmed, the contract is deployed to blockchain.
+
+---
+
+### **3. Write down steps for creating Node application for smart contracts deployment.**
+
+Here we are using **Node.js + Hardhat** or **Truffle** for smart contract deployment.
+
+**Steps (Generalized Process):**
+
+1. **Install Node.js and npm**
+
+   * Node.js helps to run JavaScript outside browser.
+   * `npm` (Node Package Manager) installs required blockchain tools.
+
+   ```bash
+   node -v
+   npm -v
+   ```
+
+2. **Create Project Folder**
+
+   ```bash
+   mkdir smart-contract-demo
+   cd smart-contract-demo
+   ```
+
+3. **Initialize Node Project**
+
+   ```bash
+   npm init -y
+   ```
+
+4. **Install Hardhat or Truffle**
+
+   * Hardhat is a popular Ethereum development framework.
+
+   ```bash
+   npm install --save-dev hardhat
+   npx hardhat
+   ```
+
+5. **Write Smart Contract**
+
+   * Create a file in `/contracts` folder (e.g., `SimpleStorage.sol`)
+   * Example:
+
+     ```solidity
+     // SPDX-License-Identifier: MIT
+     pragma solidity ^0.8.0;
+
+     contract SimpleStorage {
+         uint public data;
+         function set(uint _data) public {
+             data = _data;
+         }
+     }
+     ```
+
+6. **Compile the Contract**
+
+   ```bash
+   npx hardhat compile
+   ```
+
+7. **Deploy Script**
+
+   * Create a deploy script in `/scripts/deploy.js`
+
+   ```javascript
+   const hre = require("hardhat");
+   async function main() {
+     const Storage = await hre.ethers.getContractFactory("SimpleStorage");
+     const storage = await Storage.deploy();
+     await storage.waitForDeployment();
+     console.log("Contract deployed at:", await storage.getAddress());
+   }
+   main();
+   ```
+
+8. **Run Deployment on Test Network**
+
+   ```bash
+   npx hardhat run scripts/deploy.js --network sepolia
+   ```
+
+9. **Connect MetaMask**
+
+   * Use same test network (e.g., Sepolia) and wallet address from MetaMask to view deployed contract.
+
+---
+
+### **4. Explain concept of Test Network and provide its types.**
+
+**Definition:**
+A **test network (testnet)** is a **blockchain network used for testing** smart contracts or decentralized apps before deploying them to the **main network (mainnet)**.
+
+**Purpose:**
+
+* To experiment with contracts **without spending real money**.
+* To **debug and verify** logic before real-world deployment.
+* To simulate how transactions will behave on mainnet.
+
+**How it Works:**
+
+* Testnets use **test tokens** (e.g., test ETH) that have **no real-world value**.
+* You can get free test tokens from **faucets**.
+* The structure and rules are the same as the mainnet, but separate.
+
+**Types of Ethereum Test Networks:**
+
+1. **Sepolia Testnet** → Modern official Ethereum testnet (widely used).
+2. **Goerli Testnet** → Previously popular, now deprecated in 2025.
+3. **Rinkeby Testnet** → Older network, replaced by Sepolia.
+4. **Local Testnet** → Created using tools like Hardhat or Ganache for local testing.
+
+**Example:**
+If you want to test your contract deployment, you can deploy it on **Sepolia** using fake ETH from a faucet → verify the contract on Etherscan testnet → then deploy on **Ethereum Mainnet** once confirmed working.
+
+---
+
+### ✅ **Summary Table**
+
+| Topic                       | Explanation                                                                            |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| **Smart Contract**          | Self-executing code on blockchain enforcing agreements automatically.                  |
+| **MetaMask**                | Wallet + Bridge between frontend and blockchain; helps deploy/interact with contracts. |
+| **Node App for Deployment** | Use Node.js + Hardhat/Truffle → compile → deploy → interact with blockchain.           |
+| **Test Network**            | Safe environment to test contracts using fake crypto before real deployment.           |
+
+---
+
